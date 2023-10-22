@@ -54,7 +54,7 @@ const configTama = (event) => {
         let child = event.target.child
         console.log(child);
         //event.target.child.classList.add("seleccionado");
-
+        //
         let span = document.getElementsByClassName("config-size__text")
         
         let numeroCartas = event.target.value;
