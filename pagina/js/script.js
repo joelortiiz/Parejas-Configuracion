@@ -51,22 +51,24 @@ const cargarImagenes = () => {
 const configTama = (event) => {
     let seleccion = false;
     if (event.target.nodeName.toLowerCase() == "input") {
-        let child = event.target.child
-        console.log(child);
+        let span = event.target.nextElementSibling;
+
+        console.log(span);
         //event.target.child.classList.add("seleccionado");
-        //
-        let span = document.getElementsByClassName("config-size__text")
+        
         
         let numeroCartas = event.target.value;
         console.log(numeroCartas);
 
-        if (numeroCartas.value != null) {
-            return seleccion = true;
-        }
-
+        console.log(span.className);
+        if(span.className=="seleccionado"){
+            span.classList.toggle("seleccionado");
     } else {
-        return seleccion = false;
+        span.classList.toggle("seleccionado");
+    
+
     }
+}
     
 }
 
@@ -87,6 +89,11 @@ const selecionarImagen = (event) => {
     }
 }
 
+const configJuego=(event)=> {
+
+}
+
 document.addEventListener("DOMContentLoaded", cargarImagenes)
 configuracion_tama.addEventListener("click", configTama)
 config_card_body.addEventListener("click", selecionarImagen)
+configuracion_juego.addEventListener("click", configJuego)
