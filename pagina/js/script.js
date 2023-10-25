@@ -28,6 +28,13 @@ let btn_nueva_partida = document.getElementById("btn_nueva_partida");
 
 let imagenes = document.getElementsByTagName("img");
 
+
+let num_imagenes ="";
+let tipo_carta="";
+let tiempo_juego="";
+let nivel_ayuda="";
+
+
 const cargarImagenes = () => {
     finjuego.style.display = "none";
     btn_comprobar.style.display = "none";
@@ -48,52 +55,147 @@ const cargarImagenes = () => {
     });
 
 }
+
+let seleccionTama = null;
+let numeroCartas =0;
 const configTama = (event) => {
     let seleccion = false;
     if (event.target.nodeName.toLowerCase() == "input") {
-        let span = event.target.nextElementSibling;
-
-        console.log(span);
-        //event.target.child.classList.add("seleccionado");
-        
-        
+       
         let numeroCartas = event.target.value;
         console.log(numeroCartas);
 
-        console.log(span.className);
-        if(span.className=="seleccionado"){
-            span.classList.toggle("seleccionado");
-    } else {
-        span.classList.toggle("seleccionado");
-    
+       
+    //    let span = event.target.nextElementSibling;
+       
 
-    }
+        if(seleccionTama) {
+            seleccionTama.classList.remove("seleccionado")
+        }
+
+        event.target.nextElementSibling.classList.add("seleccionado")
+        seleccionTama = event.target.nextElementSibling;
+        configuracion_tama.classList.remove("error");
+    
 }
     
 }
 
-
+let seleccion_imagen = null;
+let imagenCarta ="";
 const selecionarImagen = (event) => {
     let seleccion;
     if (event.target.nodeName.toLowerCase() == "img") {
 
         //  console.log(event.target.src.substring(event.target.src.lastIndexOf("/")+1, event.target.src.lastIndexOf(".")))
-        let imagenCarta = event.target.src.substring(event.target.src.lastIndexOf("/") + 1, event.target.src.lastIndexOf("."))
-        console.log(imagenCarta)
-        if (imagenCarta.value != "") {
-            return seleccion = true;
+       
+        if(seleccion_imagen) {
+            seleccion_imagen.classList.remove("carta-seleccionada")
+        }
+        
+        event.target.classList.add("carta-seleccionada")
+        seleccion_imagen = event.target;
+        configuracion_cartas.classList.remove("error");
+        
+        if(event.target.classList == "seleccionado") {
+            imagenCarta = event.target.src.substring(event.target.src.lastIndexOf("/") + 1, event.target.src.lastIndexOf("."))
+            console.log(imagenCarta)
+
         }
 
-    } else {
-        return seleccion = false;
     }
 }
 
+let seleccionTiempo = null;
 const configJuego=(event)=> {
+    let seleccion = false;
+    if (event.target.nodeName.toLowerCase() == "input") {
+       
+        let numeroCartas = event.target.value;
+        console.log(numeroCartas);
 
+       
+    //    let span = event.target.nextElementSibling;
+       
+
+        if(seleccionTiempo) {
+            seleccionTiempo.classList.remove("seleccionado")
+        }
+
+        event.target.nextElementSibling.classList.add("seleccionado")
+        seleccionTiempo = event.target.nextElementSibling;
+        visor_tiempo.classList.remove("error");
+    
+}
+}
+
+let seleccionAyuda = null;
+const configAyuda =(event)=> {
+    
+    let seleccion = false;
+    if (event.target.nodeName.toLowerCase() == "input") {
+       
+        let numeroCartas = event.target.value;
+        console.log(numeroCartas);
+
+       
+    //    let span = event.target.nextElementSibling;
+       
+
+        if(seleccionAyuda) {
+            seleccionAyuda.classList.remove("seleccionado")
+        }
+        event.target.nextElementSibling.classList.add("seleccionado")
+        seleccionAyuda = event.target.nextElementSibling;
+        visor_ayuda.classList.remove("error");
+    
+}
+}
+
+const validarConfig=()=> {
+    
+  //  console.log("seleccionado")
+    if(!seleccionTama) {
+       configuracion_tama.classList.add("error");
+    }
+    if(!seleccion_imagen) {
+        configuracion_cartas.classList.add("error");
+     }
+     if(!seleccionTiempo) {
+        visor_tiempo.classList.add("error");
+     }
+     if(!seleccionAyuda) {
+        visor_ayuda.classList.add("error")
+     }
+     if(seleccionTama && seleccion_imagen && seleccionTiempo && seleccionAyuda) {
+        configuracion_tama.style.display="none"
+        configuracion_cartas.style.display="none"
+        ayuda.style.display="none"
+        tiempo.style.display="none"
+        btn_validar.style.display="none"
+        juego.style.display="block"
+
+        cargarJuego()
+     }
+}
+const cargarJuego =()=> {
+
+    for(let i=0;i<numeroCartas; i++) {
+
+        let container = document.createElement("DIV");
+        container.setAttribute("class", "container-carta-juego");
+        config_card_body.append(container);
+      
+        let imagen = document.createElement("IMG");
+        imagen.setAttribute("src", "./assets/images/cartas/" + imagenCarta)
+        imagen.setAttribute("class", "config-card__img")
+        container.append(imagen)
+    }
 }
 
 document.addEventListener("DOMContentLoaded", cargarImagenes)
 configuracion_tama.addEventListener("click", configTama)
-config_card_body.addEventListener("click", selecionarImagen)
-configuracion_juego.addEventListener("click", configJuego)
+configuracion_cartas.addEventListener("click", selecionarImagen)
+visor_tiempo.addEventListener("click", configJuego)
+visor_ayuda.addEventListener("click", configAyuda)
+btn_validar.addEventListener("click", validarConfig)
